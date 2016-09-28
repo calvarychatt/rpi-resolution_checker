@@ -2,12 +2,28 @@
 
 resolution=$(tvservice -s | awk '{print $9}')
 
+#  Print out our current resolution just for funsies
+
 echo $resolution
 
-if [ $resolution == "1920x1080" ]
+#  Start our infinite loop, we want to run this via a script and not a cronjob to avoid any potential
+#  permissions issues.  Nesting an if/then statement inside our while loop.  Once we check to see if
+#  our resolution is correct or not, we will send ourselves an email alert if things are not working
+#  as they should, then we will wait 30 seconds and start over.
+
+while true; do
+
+if [ $resolution == "1920x1080" ]	#  The resolution command that we defined earlier will output a string, simply check to see if this string is 1920x1080
+					#  if not, then the resolution has somehow been changed and chances are that nothing is being outputted to the tv
+					#  which means that the building is probably about to catch on fire.
+
 then
         echo "Resolution is correct"
 else
         echo "Resolution is screwy"
         echo "Calvary Kids Pi is down" | sendmail -v mkcnrd@gmail.com
 fi
+
+sleep 30	# Wait 30 seconds then repeat our if/then statement.  Do this forever...
+
+done
