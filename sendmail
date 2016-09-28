@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl --connect-timeout 15 -v --insecure "smtp://smtp.gmail.com:25" -u "username:password" --mail-from "email@address" --mail-rcpt "email@address" -T alert_email --ssl
