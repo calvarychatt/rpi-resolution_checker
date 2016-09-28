@@ -1,0 +1,13 @@
+#!/bin/bash
+
+resolution=$(tvservice -s | awk '{print $9}')
+
+echo $resolution
+
+if [ $resolution == "1920x1080" ]
+then
+        echo "Resolution is correct"
+else
+        echo "Resolution is screwy"
+        echo "Calvary Kids Pi is down" | sendmail -v mkcnrd@gmail.com
+fi
