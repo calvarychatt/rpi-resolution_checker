@@ -1,33 +1,10 @@
 # rpi-resolution_checker
-A simple set of scripts/commands to ensure that the resolution is correct on a Raspberry pi.
+A simple set of scripts/commands to ensure that the resolution is correct on a Raspberry pi.  I wanted a dead simple way to be able to monitor a raspberry pi and have it send me an email alert if something was wrong.  In this case we are checking to make sure that it is set to the correct resolution.  The purpose for this is because we have had issues with one Pi in particular changing to a non standard resolution that is not accepted by the tv.  It is not yet known why this is occurring.  At this time I have tried swapping the SD card and no change.  I have now swapped out the pi to see if that resolves the issue.
 
-<code>sudo apt-get update</code>
+The purpose of this project is to set up a simple alert system so that I know exactly when the problem starts and can reimage the SD card and correct the problem asap.  I originally was using sendmail for this but then discovered that it can be done through a simple curl command.  I have put the curl command into a bash script named sendmail just to make it easier to call from my resolution_checker script. 
 
-<code>sudo apt-get install sendmail</code>
-
-<code>sudo sendmailconfig</code>
-
-Edit /etc/hosts to match the following:
-
-127.0.0.1	localhost
-127.0.0.1
-127.0.0.1 localhost calvarykids.pi raspberrypi
-::1		localhost ip6-localhost ip6-loopback
-ff02::1		ip6-allnodes
-ff02::2		ip6-allrouters
-
-127.0.1.1	raspberrypi
-
-
-
-Answer yes to all the defaults.  This should set up Sendmail with the basics we need.
-
-We can test sendmail using the following:
-
-echo "Calvary Kids Pi is down" | sendmail -v yourname@gmail.com
-
-replace yourname@gmail.com with the address you would like the email sent to.  It will show up in the spam folder because it is coming from an unverified address since we are not using any sort of relay.  This is fine for sending ourselves alerts.  You can set up filters in Gmail to send these emails directly to the inbox and bypass the spam folder.  
-
-To get it going we can just run:
+You will need to fill in the appropriate information in the sendmail script such as the username:password used to authenticate with Gmail, as well as the to and from email address.  Everything else should be good to go.  Just clone the repo, make sure to add execute permissions to sendmail and resolution_checker and then run:
 
 <code>nohup ./resolution_checker</code>
+
+This should run our check every 30 seconds in an infinite loop.  If when it goes through the loop it detects something other than 1920x1080, we should receive an email.
