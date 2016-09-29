@@ -5,6 +5,11 @@ The purpose of this project is to set up a simple alert system so that I know ex
 
 You will need to fill in the appropriate information in the sendmail script such as the username:password used to authenticate with Gmail, as well as the to and from email address.  Everything else should be good to go.  Just clone the repo, make sure to add execute permissions to sendmail and resolution_checker and then run:
 
-<code>nohup ./resolution_checker</code>
+<code>git clone https://github.com/calvarychatt/rpi-resolution_checker.git</code>
+
+
+<code>rpi-resolution_checker/resolution_checker & disown</code>
+
+This will run our resolution_checker in the background and detach it from our session ensuring that it stays running when we close out the session, however as long as the session is active, we will receive output from the script in our current session
 
 This should run our check every 30 seconds in an infinite loop.  If when it goes through the loop it detects something other than 1920x1080, we should receive an email.
