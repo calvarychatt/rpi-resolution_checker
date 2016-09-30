@@ -1,7 +1,7 @@
 #!/bin/bash
 
-. .credentials
+. /home/pi/rpi-resolution_checker/.credentials
 
 SERVER="smtp://smtp.gmail.com:25"
 
-curl --connect-timeout 15 -v --insecure $SERVER -u $USER:$PASS --mail-from $FROM --mail-rcpt $TO -T alert_email --ssl
+/usr/bin/curl --connect-timeout 15 -v --insecure $SERVER -u $USER:$PASS --mail-from $FROM --mail-rcpt $TO -T /home/pi/rpi-resolution_checker/alert_email --ssl -o ./output_log 2>&1 | tee logfile
