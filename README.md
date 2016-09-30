@@ -8,8 +8,10 @@ You will need to fill in the appropriate information in the sendmail script such
 <code>git clone https://github.com/calvarychatt/rpi-resolution_checker.git</code>
 
 
-<code>rpi-resolution_checker/resolution_checker & disown</code>
+Add the following line to your crontab:
 
-This will run our resolution_checker in the background and detach it from our session ensuring that it stays running when we close out the session, however as long as the session is active, we will receive output from the script in our current session
+<code>* * * * * /home/pi/rpi-resolution_checker/resolution_checker</code>
 
-This should run our check every 30 seconds in an infinite loop.  If when it goes through the loop it detects something other than 1920x1080, we should receive an email.
+This will run the resolution checker script once a minute.  I have tried various other ways of doing this and they just don't seem to work as well.  I originally had the if/then statment
+inside of a while loop that ran every 30 seconds, however it did not seem to actually do anything if and when the resolution changed.  I added this as a cronjob once a minute and tested
+it this morning.  Everything seems to be functioning properly.  I found that curl was not running properly and that the sendmail script was not executing so I added the absolute paths to the script.  This assumes that everything is under /home/pi and will need to be adjusted accordingly if this is not the case.
